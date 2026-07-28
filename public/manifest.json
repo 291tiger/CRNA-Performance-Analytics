@@ -4,7 +4,7 @@
   "name": "CRNA Performance Analytics",
   "author": "291tiger",
   "repoUrl": "https://github.com/291tiger/CRNA-Performance-Analytics",
-  "version": { "major": 1, "minor": 0, "patch": 0 },
+  "version": { "major": 1, "minor": 0, "patch": 1 },
   "description": "Compare RemNote review performance by lecture, topic, drug class, or any nested category. Identifies weak concepts using retention, recent performance, review volume, and response time.",
   "requestNative": false,
   "enableOnMobile": true,
