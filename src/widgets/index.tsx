@@ -1,5 +1,5 @@
 import { declareIndexPlugin, ReactRNPlugin, WidgetLocation } from '@remnote/plugin-sdk';
-import '../style.css';
+import './style.css';
 import { openAnalytics } from './widget-utils';
 
 async function onActivate(plugin: ReactRNPlugin) {
@@ -10,21 +10,6 @@ async function onActivate(plugin: ReactRNPlugin) {
   await plugin.app.registerWidget('sidebar-button', WidgetLocation.SidebarEnd, {
     dimensions: { height: 'auto', width: 'auto' },
   });
-
-  const isSmallMobile = window.innerWidth < 780
-    && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
-
-  await plugin.app.registerWidget(
-    'queue-toolbar-button',
-    isSmallMobile ? WidgetLocation.QueueBelowTopBar : WidgetLocation.QueueToolbar,
-    { dimensions: { height: 'auto', width: 'auto' } },
-  );
-
-  await plugin.app.registerWidget(
-    'flashcard-analytics-button',
-    WidgetLocation.FlashcardAnswerButtons,
-    { dimensions: { height: 'auto', width: 'auto' } },
-  );
 
   await plugin.app.registerCommand({
     id: 'open-crna-performance-analytics',
