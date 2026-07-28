@@ -1,24 +1,20 @@
 # CRNA Performance Analytics
 
-A RemNote plugin that compares review performance across the direct child Rems beneath a selected lecture, course, topic, or drug-class Rem.
+Anki-style RemNote statistics for any course hierarchy, including Principles, Pharmacology, Pathophysiology, Physics, ECG, and clinical material.
 
-## What it reports
+## Version 1.1.0
 
-- Mastery estimate
-- Lifetime retention
-- Recent retention over a selectable time window
-- Total reviews and forgotten/hard counts
-- Average response time when available
-- Priority labels from Critical through Mastered
+- Statistics for each direct folder, section, and document under the selected Rem
+- Drill-down navigation through nested folders and documents
+- Lifetime and recent retention
+- Again, Hard, Good, and Easy distribution
+- Review volume and average response time
+- Mastery and study-priority status
+- Hardest Questions table showing the exact flashcard Rems you repeatedly miss
+- Click any question to open the source Rem
 
-## How categories work
+## Use
 
-Select a parent Rem before opening the dashboard. Each direct child is treated as one category, and cards nested anywhere beneath that child are included. This lets the same dashboard compare lectures, topics, drug classes, mechanisms, or clinical concepts depending on how the parent Rem is organized.
+Focus a course, module, folder, section, or document in RemNote. Open the command menu and run:
 
-## Open the dashboard
-
-Focus the parent Rem, open RemNote's command menu, and run **Open CRNA Performance Analytics**.
-
-## Build
-
-Run `npm ci`, then `npm run build:ci`. The installable file is generated as `PluginZip.zip`.
+`Open CRNA Performance Analytics`

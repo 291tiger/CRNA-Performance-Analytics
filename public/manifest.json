@@ -2,13 +2,20 @@
   "manifestVersion": 1,
   "id": "crna-performance-analytics",
   "name": "CRNA Performance Analytics",
-  "author": "291tiger",
+  "author": "CRNA Performance Analytics",
   "repoUrl": "https://github.com/291tiger/CRNA-Performance-Analytics",
-  "version": { "major": 1, "minor": 0, "patch": 1 },
-  "description": "Compare RemNote review performance by lecture, topic, drug class, or any nested category. Identifies weak concepts using retention, recent performance, review volume, and response time.",
+  "version": {
+    "major": 1,
+    "minor": 1,
+    "patch": 0
+  },
+  "description": "Anki-style performance statistics for every RemNote folder, section, document, and individual flashcard. Drill down through your hierarchy and identify exact questions with low retention.",
   "requestNative": false,
   "enableOnMobile": true,
   "requiredScopes": [
-    { "type": "All", "level": "Read" }
+    {
+      "type": "All",
+      "level": "Read"
+    }
   ]
 }
