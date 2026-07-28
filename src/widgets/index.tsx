@@ -3,7 +3,7 @@ import {
   ReactRNPlugin,
   WidgetLocation,
 } from '@remnote/plugin-sdk';
-import './style.css';
+import '../style.css';
 import { openAnalytics } from './widget-utils';
 
 async function onActivate(plugin: ReactRNPlugin) {
