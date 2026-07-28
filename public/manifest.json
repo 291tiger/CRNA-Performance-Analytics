@@ -6,10 +6,10 @@
   "repoUrl": "https://github.com/291tiger/CRNA-Performance-Analytics",
   "version": {
     "major": 2,
-    "minor": 0,
-    "patch": 1
+    "minor": 1,
+    "patch": 0
   },
-  "description": "Evidence-based RemNote analytics for CRNA students: mastery, confidence, coverage, readiness, weakest topics and exact questions, Study Next recommendations, and progress tracking.",
+  "description": "CRNA performance analytics with compact, read-only flashcard repetition history, mastery, confidence, coverage, readiness, weakest topics, Study Next recommendations, and progress tracking.",
   "requestNative": false,
   "enableOnMobile": true,
   "requiredScopes": [

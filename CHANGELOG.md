@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.1.0
+
+- Replaced the flashcard analytics badge with a compact nine-slot repetition-history strip.
+- Added a read-only hover summary for Retention, Status, Reviews, Current Streak, Trend, and Mastery.
+- Added the final response palette: Forgot `#C42416`, Partially Recalled `#EBB52D`, Recalled with Effort `#27D930`, and Easily Recalled `#29701E`.
+- Added Good, Review, and Weak card status labels.
+- Kept the widget free of keyboard listeners, focus capture, overlays over RemNote controls, and event suppression.
+
 ## 2.0.0
 
 - Added permanent sidebar access.

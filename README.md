@@ -1,6 +1,8 @@
-# CRNA Performance Analytics 2.0
+# CRNA Performance Analytics 2.1
 
 CRNA Performance Analytics turns RemNote review history into practical, question-level study decisions.
+
+During flashcard review, a compact nine-slot history strip shows the most recent response pattern. Hovering reveals Retention, Status, Reviews, Current Streak, Trend, and Mastery without replacing RemNote controls or registering keyboard shortcuts.
 
 ## What is new in 2.0
 

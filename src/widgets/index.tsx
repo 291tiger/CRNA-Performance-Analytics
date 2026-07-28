@@ -12,6 +12,22 @@ async function onActivate(plugin: ReactRNPlugin) {
   });
 
   await plugin.app.registerWidget(
+    'flashcard-analytics-button',
+    WidgetLocation.FlashcardAnswerButtons,
+    {
+      dimensions: { height: 'auto', width: 'auto' },
+    }
+  );
+
+  await plugin.app.registerWidget(
+    'queue-toolbar-button',
+    WidgetLocation.QueueToolbar,
+    {
+      dimensions: { height: 'auto', width: 'auto' },
+    }
+  );
+
+  await plugin.app.registerWidget(
     'sidebar-button',
     WidgetLocation.SidebarEnd,
     {

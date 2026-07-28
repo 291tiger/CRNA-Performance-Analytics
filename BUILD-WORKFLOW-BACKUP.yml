@@ -30,7 +30,7 @@ jobs:
       - name: Upload installable RemNote ZIP
         uses: actions/upload-artifact@v4
         with:
-          name: CRNA-Performance-Analytics-v2.0.0
+          name: CRNA-Performance-Analytics-v2.1.0
           path: PluginZip.zip
           if-no-files-found: error
           retention-days: 90
