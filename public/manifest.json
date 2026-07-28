@@ -7,7 +7,7 @@
   "version": {
     "major": 2,
     "minor": 0,
-    "patch": 0
+    "patch": 1
   },
   "description": "Evidence-based RemNote analytics for CRNA students: mastery, confidence, coverage, readiness, weakest topics and exact questions, Study Next recommendations, and progress tracking.",
   "requestNative": false,
