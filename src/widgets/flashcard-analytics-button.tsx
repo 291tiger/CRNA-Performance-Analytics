@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   Card,
   WidgetLocation,
@@ -6,10 +6,9 @@ import {
   usePlugin,
   useRunAsync,
 } from '@remnote/plugin-sdk';
-import { analyzeCard, validReviewEvents, ReviewEvent } from './analytics-engine';
+import { validReviewEvents, ReviewEvent } from './analytics-engine';
 
 type RecallKind = 'forgot' | 'partial' | 'effort' | 'easy';
-type CompactStatus = 'Good' | 'Review' | 'Weak';
 
 type TooltipState = {
   visible: boolean;
@@ -28,9 +27,13 @@ function recallKind(score: number): RecallKind {
 function quality(event: ReviewEvent): number {
   const kind = recallKind(event.score);
   if (kind === 'forgot') return 0;
-  if (kind === 'partial') return 0.55;
-  if (kind === 'effort') return 0.9;
+  if (kind === 'partial') return 0.4;
+  if (kind === 'effort') return 0.75;
   return 1;
+}
+
+function average(values: number[]): number {
+  return values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : 0;
 }
 
 function currentStreak(events: ReviewEvent[]): number {
@@ -49,26 +52,34 @@ function trendFor(events: ReviewEvent[]): { symbol: string; label: string } {
   const previous = events.slice(Math.max(0, events.length - 10), Math.max(0, events.length - 5));
   if (!previous.length) return { symbol: '→', label: 'Steady' };
 
-  const average = (items: ReviewEvent[]) =>
-    items.reduce((sum, event) => sum + quality(event), 0) / items.length;
-  const delta = average(recent) - average(previous);
-
+  const delta = average(recent.map(quality)) - average(previous.map(quality));
   if (delta > 0.08) return { symbol: '↑', label: 'Improving' };
   if (delta < -0.08) return { symbol: '↓', label: 'Declining' };
   return { symbol: '→', label: 'Steady' };
 }
 
-function statusFor(mastery: number | null, events: ReviewEvent[]): CompactStatus {
-  if (!events.length || mastery === null) return 'Review';
+function strengthFor(events: ReviewEvent[]): number | null {
+  if (!events.length) return null;
 
-  const latest = recallKind(events[events.length - 1].score);
-  const recentForgot = events
-    .slice(-3)
-    .filter((event) => recallKind(event.score) === 'forgot').length;
+  const successful = events.filter((event) => recallKind(event.score) !== 'forgot').length;
+  const retention = successful / events.length;
+  const recent = average(events.slice(-5).map(quality));
+  const recallQuality = average(events.map(quality));
+  const streak = currentStreak(events);
+  const consistency = Math.min(1, streak / 5);
 
-  if (latest === 'forgot' || recentForgot >= 2 || mastery < 65) return 'Weak';
-  if (mastery >= 85 && recentForgot === 0) return 'Good';
-  return 'Review';
+  const raw = (0.5 * retention) + (0.25 * recent) + (0.15 * recallQuality) + (0.1 * consistency);
+
+  // Prevent one or two successful reviews from presenting as fully established knowledge.
+  const confidence = Math.min(1, 0.55 + (events.length * 0.09));
+  return Math.round(raw * confidence * 100);
+}
+
+function statusFor(strength: number | null, reviews: number): string {
+  if (!reviews || strength === null) return 'New';
+  if (strength >= 85) return 'Strong';
+  if (strength < 55) return 'Needs Review';
+  return 'Learning';
 }
 
 function FlashcardHistoryWidget() {
@@ -86,31 +97,17 @@ function FlashcardHistoryWidget() {
     if (!card) return undefined;
 
     const events = validReviewEvents(card as Card);
-    const analysis = analyzeCard(card as Card, '', 30);
-    const remembered = events.filter((event) => recallKind(event.score) !== 'forgot').length;
-    const retention = events.length ? Math.round((remembered / events.length) * 100) : null;
-    const mastery = analysis.mastery === null ? null : Math.round(analysis.mastery);
+    const strength = strengthFor(events);
 
     return {
       events,
-      retention,
-      mastery,
+      strength,
       reviews: events.length,
       streak: currentStreak(events),
       trend: trendFor(events),
-      status: statusFor(mastery, events),
+      status: statusFor(strength, events.length),
     };
   }, [card?._id, card?.repetitionHistory?.length]);
-
-  useEffect(() => {
-    if (!card) {
-      document.documentElement.style.height = '0';
-      document.body.style.height = '0';
-    } else {
-      document.documentElement.style.height = '';
-      document.body.style.height = '';
-    }
-  }, [card]);
 
   if (!card) return <></>;
 
@@ -133,16 +130,13 @@ function FlashcardHistoryWidget() {
         onMouseEnter={showTooltip}
         onMouseLeave={() => setTooltip((current) => ({ ...current, visible: false }))}
       >
-        {visibleEvents.map((event: ReviewEvent, index: number) => {
-          const kind = recallKind(event.score);
-          return (
-            <span
-              className={`history-square history-square-${kind}`}
-              key={`${event.date}-${index}`}
-              aria-hidden="true"
-            />
-          );
-        })}
+        {visibleEvents.map((event: ReviewEvent, index: number) => (
+          <span
+            className={`history-square history-square-${recallKind(event.score)}`}
+            key={`${event.date}-${index}`}
+            aria-hidden="true"
+          />
+        ))}
         {Array.from({ length: emptySlots }).map((_, index) => (
           <span className="history-square history-square-empty" key={`empty-${index}`} aria-hidden="true" />
         ))}
@@ -153,30 +147,11 @@ function FlashcardHistoryWidget() {
         style={{ left: `${tooltip.left}px` }}
         aria-hidden="true"
       >
-        <div className="history-metric">
-          <strong>{compact?.retention == null ? '—' : `${compact.retention}%`}</strong>
-          <span>Retention</span>
-        </div>
-        <div className={`history-metric status-${(compact?.status || 'Review').toLowerCase()}`}>
-          <strong>{compact?.status || 'Review'}</strong>
-          <span>Status</span>
-        </div>
-        <div className="history-metric">
-          <strong>{compact?.reviews ?? 0}</strong>
-          <span>Reviews</span>
-        </div>
-        <div className="history-metric">
-          <strong>{compact?.streak ?? 0}</strong>
-          <span>Current Streak</span>
-        </div>
-        <div className="history-metric">
-          <strong>{compact?.trend.symbol || '→'}</strong>
-          <span>{compact?.trend.label || 'Steady'}</span>
-        </div>
-        <div className="history-metric">
-          <strong>{compact?.mastery == null ? '—' : `${compact.mastery}%`}</strong>
-          <span>Mastery</span>
-        </div>
+        <div className="history-row"><span>Status</span><strong>{compact?.status || 'New'}</strong></div>
+        <div className="history-row"><span>Strength</span><strong>{compact?.strength == null ? '—' : `${compact.strength}%`}</strong></div>
+        <div className="history-row"><span>Reviews</span><strong>{compact?.reviews ?? 0}</strong></div>
+        <div className="history-row"><span>Current Streak</span><strong>{compact?.streak ?? 0}</strong></div>
+        <div className="history-row"><span>Trend</span><strong>{compact?.trend.symbol || '→'} {compact?.trend.label || 'Steady'}</strong></div>
       </div>
     </div>
   );
