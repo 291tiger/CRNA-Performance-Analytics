@@ -15,17 +15,10 @@ async function onActivate(plugin: ReactRNPlugin) {
     'flashcard-analytics-button',
     WidgetLocation.FlashcardAnswerButtons,
     {
-      dimensions: { height: 118, width: 270 },
+      dimensions: { height: 30, width: 170 },
     }
   );
 
-  await plugin.app.registerWidget(
-    'queue-toolbar-button',
-    WidgetLocation.QueueToolbar,
-    {
-      dimensions: { height: 'auto', width: 'auto' },
-    }
-  );
 
   await plugin.app.registerWidget(
     'sidebar-button',
@@ -36,8 +29,8 @@ async function onActivate(plugin: ReactRNPlugin) {
   );
 
   await plugin.app.registerCommand({
-    id: 'open-crna-performance-analytics',
-    name: 'Open CRNA Performance Analytics',
+    id: 'open-analytics',
+    name: 'Open Analytics',
     action: async () => {
       const focusedRem = await plugin.focus.getFocusedRem();
 

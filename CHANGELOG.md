@@ -1,3 +1,10 @@
+## 2.1.3
+
+- Restored a clean dependency lockfile with valid randombytes 2.1.0 resolution.
+- Kept the review-history widget compact so native RemNote answer buttons remain visible.
+- Moved the strip slightly higher and ordered history oldest-to-newest from left to right.
+- Kept the six-metric hover panel.
+
 # Changelog
 
 ## 2.1.0

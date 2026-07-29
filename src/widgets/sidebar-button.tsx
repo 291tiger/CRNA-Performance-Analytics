@@ -18,7 +18,7 @@ function SidebarButton() {
   return (
     <button
       onClick={handleClick}
-      title="Open CRNA Performance Analytics for the focused Rem"
+      title="Open Analytics for the focused Rem"
       style={{
         width: 'calc(100% - 12px)',
         margin: '6px',
@@ -37,7 +37,7 @@ function SidebarButton() {
       }}
     >
       <span aria-hidden="true">📊</span>
-      <span>CRNA Analytics</span>
+      <span>Analytics</span>
     </button>
   );
 }

@@ -575,7 +575,7 @@ export function AnalyticsDashboard() {
     <main className="dashboard">
       <header className="dashboard-header">
         <div className="header-copy">
-          <p className="eyebrow">CRNA PERFORMANCE ANALYTICS 2.0</p>
+          <p className="eyebrow">ANALYTICS</p>
           <h1>{rootName || 'Loading…'}</h1>
           <nav className="breadcrumbs" aria-label="Analytics location">
             {breadcrumbs.map((crumb, index) => (
@@ -599,7 +599,7 @@ export function AnalyticsDashboard() {
 
       {!rootRem && (
         <EmptyState>
-          Focus a course, lecture, topic, folder, or document, then click <strong>CRNA Analytics</strong> in the sidebar or run the command.
+          Focus a course, lecture, topic, folder, or document, then click <strong>Analytics</strong> in the sidebar or run the command.
         </EmptyState>
       )}
 

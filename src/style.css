@@ -389,60 +389,47 @@ td small { display: block; margin-top: 3px; color: var(--analytics-muted); font-
 }
 
 /* Compact, read-only flashcard repetition history. No keyboard handlers or focusable controls. */
-html, body {
-  margin: 0;
-  padding: 0;
-  background: transparent !important;
-  overflow: visible;
-}
-
 .card-history-widget {
   --history-forgot: #c42416;
   --history-partial: #ebb52d;
   --history-effort: #27d930;
   --history-easy: #29701e;
-  position: absolute;
-  left: 50%;
-  bottom: 5px;
-  transform: translateX(-50%);
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: max-content;
-  padding: 5px 7px;
-  border: 1px solid var(--rn-clr-border-primary);
-  border-radius: 7px;
-  background: var(--rn-clr-background-secondary);
+  width: 158px;
+  height: 22px;
+  margin: 0;
+  padding: 0 5px;
+  overflow: visible;
+  border: 0;
+  background: transparent;
   color: var(--rn-clr-content-primary);
   line-height: 1;
   user-select: none;
-  box-sizing: border-box;
+  transform: translateY(-10px);
 }
 
 .card-history-strip {
   display: inline-flex;
-  direction: ltr;
   flex-direction: row;
   align-items: center;
-  gap: 3px;
-  min-height: 14px;
+  justify-content: flex-start;
+  gap: 4px;
+  overflow: visible;
+  direction: ltr;
 }
 
 .history-square {
   display: block;
-  width: 11px;
-  height: 11px;
-  flex: 0 0 11px;
+  width: 12px;
+  height: 12px;
+  flex: 0 0 12px;
   border-radius: 2px;
   box-sizing: border-box;
 }
-
-.history-square-empty {
-  border: 1px solid var(--rn-clr-border-primary);
-  background: transparent;
-  opacity: 0.55;
-}
-
+.history-square-empty { border: 1px solid var(--rn-clr-border-primary); background: transparent; opacity: .55; }
 .history-square-forgot { background: var(--history-forgot); }
 .history-square-partial { background: var(--history-partial); }
 .history-square-effort { background: var(--history-effort); }
@@ -452,65 +439,29 @@ html, body {
   position: absolute;
   left: 50%;
   bottom: calc(100% + 7px);
-  z-index: 9999;
-  width: 244px;
+  z-index: 2147483647;
+  width: 246px;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 5px;
   padding: 7px;
+  overflow: visible;
   border: 1px solid var(--rn-clr-border-primary);
   border-radius: 9px;
   background: var(--rn-clr-background-primary);
   color: var(--rn-clr-content-primary);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 8px 24px rgba(0,0,0,.20);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
   transform: translate(-50%, 4px);
   transition: opacity 110ms ease, transform 110ms ease, visibility 110ms ease;
-  box-sizing: border-box;
 }
-
-.card-history-widget:hover .card-history-popover {
-  opacity: 1;
-  visibility: visible;
-  transform: translate(-50%, 0);
-}
-
-.history-metric {
-  min-width: 0;
-  padding: 7px 5px 6px;
-  border: 1px solid var(--rn-clr-border-primary);
-  border-radius: 7px;
-  background: var(--rn-clr-background-secondary);
-  text-align: center;
-}
-
-.history-metric strong,
-.history-metric span {
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.history-metric strong {
-  margin-bottom: 4px;
-  font-size: 14px;
-  font-weight: 760;
-  line-height: 1.05;
-}
-
-.history-metric span {
-  color: var(--rn-clr-content-secondary);
-  font-size: 9px;
-  font-weight: 650;
-  line-height: 1.1;
-}
-
+.card-history-widget:hover .card-history-popover { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+.history-metric { min-width: 0; padding: 7px 5px 6px; border: 1px solid var(--rn-clr-border-primary); border-radius: 7px; background: var(--rn-clr-background-secondary); text-align: center; }
+.history-metric strong,.history-metric span { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.history-metric strong { margin-bottom:4px; font-size:14px; font-weight:760; line-height:1.05; }
+.history-metric span { font-size:9px; line-height:1.1; opacity:.74; }
 .history-metric.status-good { border-color: var(--history-easy); }
 .history-metric.status-review { border-color: var(--history-partial); }
 .history-metric.status-weak { border-color: var(--history-forgot); }
-.history-metric.status-good strong { color: var(--history-easy); }
-.history-metric.status-review strong { color: var(--history-partial); }
-.history-metric.status-weak strong { color: var(--history-forgot); }

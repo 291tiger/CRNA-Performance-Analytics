@@ -45,7 +45,7 @@ function trendFor(events: ReviewEvent[]): { symbol: string; label: string } {
   const previous = events.slice(Math.max(0, events.length - 10), Math.max(0, events.length - 5));
   if (!previous.length) return { symbol: '→', label: 'Steady' };
 
-  const average = (items: ReviewEvent[]) => items.reduce((sum: number, event: ReviewEvent) => sum + quality(event), 0) / items.length;
+  const average = (items: ReviewEvent[]) => items.reduce((sum, event) => sum + quality(event), 0) / items.length;
   const delta = average(recent) - average(previous);
   if (delta > 0.08) return { symbol: '↑', label: 'Improving' };
   if (delta < -0.08) return { symbol: '↓', label: 'Declining' };
@@ -55,7 +55,7 @@ function trendFor(events: ReviewEvent[]): { symbol: string; label: string } {
 function statusFor(mastery: number | null, events: ReviewEvent[]): CompactStatus {
   if (!events.length || mastery === null) return 'Review';
   const latest = recallKind(events[events.length - 1].score);
-  const recentForgot = events.slice(-3).filter((event: ReviewEvent) => recallKind(event.score) === 'forgot').length;
+  const recentForgot = events.slice(-3).filter((event) => recallKind(event.score) === 'forgot').length;
 
   if (latest === 'forgot' || recentForgot >= 2 || mastery < 65) return 'Weak';
   if (mastery >= 85 && recentForgot === 0) return 'Good';
@@ -72,12 +72,12 @@ function FlashcardAnalyticsButton() {
     if (!rem) return undefined;
 
     const cards = await rem.getCards();
-    const card = cards.find((item: Card) => item?._id === context.cardId) || cards[0];
+    const card = cards.find((item) => item?._id === context.cardId) || cards[0];
     if (!card) return undefined;
 
     const events = validReviewEvents(card as Card);
     const analysis = analyzeCard(card as Card, '', 30);
-    const remembered = events.filter((event: ReviewEvent) => recallKind(event.score) !== 'forgot').length;
+    const remembered = events.filter((event) => recallKind(event.score) !== 'forgot').length;
     const retention = events.length ? Math.round((remembered / events.length) * 100) : null;
     const mastery = analysis.mastery === null ? null : Math.round(analysis.mastery);
 
