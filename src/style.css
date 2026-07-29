@@ -1,10 +1,3 @@
-html, body, #root {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  overflow: visible;
-}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -396,6 +389,13 @@ td small { display: block; margin-top: 3px; color: var(--analytics-muted); font-
 }
 
 /* Compact, read-only flashcard repetition history. No keyboard handlers or focusable controls. */
+html, body {
+  margin: 0;
+  padding: 0;
+  background: transparent !important;
+  overflow: visible;
+}
+
 .card-history-widget {
   --history-forgot: #c42416;
   --history-partial: #ebb52d;
@@ -403,11 +403,12 @@ td small { display: block; margin-top: 3px; color: var(--analytics-muted); font-
   --history-easy: #29701e;
   position: absolute;
   left: 50%;
-  bottom: 3px;
-  z-index: 1;
+  bottom: 5px;
+  transform: translateX(-50%);
   display: inline-flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  width: max-content;
   padding: 5px 7px;
   border: 1px solid var(--rn-clr-border-primary);
   border-radius: 7px;
@@ -415,16 +416,16 @@ td small { display: block; margin-top: 3px; color: var(--analytics-muted); font-
   color: var(--rn-clr-content-primary);
   line-height: 1;
   user-select: none;
-  transform: translateX(-50%);
+  box-sizing: border-box;
 }
 
 .card-history-strip {
   display: inline-flex;
+  direction: ltr;
   flex-direction: row;
   align-items: center;
   gap: 3px;
   min-height: 14px;
-  direction: ltr;
 }
 
 .history-square {
@@ -451,7 +452,7 @@ td small { display: block; margin-top: 3px; color: var(--analytics-muted); font-
   position: absolute;
   left: 50%;
   bottom: calc(100% + 7px);
-  z-index: 10;
+  z-index: 9999;
   width: 244px;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -467,6 +468,7 @@ td small { display: block; margin-top: 3px; color: var(--analytics-muted); font-
   pointer-events: none;
   transform: translate(-50%, 4px);
   transition: opacity 110ms ease, transform 110ms ease, visibility 110ms ease;
+  box-sizing: border-box;
 }
 
 .card-history-widget:hover .card-history-popover {
