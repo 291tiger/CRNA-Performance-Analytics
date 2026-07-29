@@ -1,3 +1,10 @@
+## 2.1.1
+
+- Fixed the flashcard history widget canvas so it no longer expands and pushes RemNote answer buttons off-screen.
+- Positioned the history strip slightly above the native answer-button row.
+- Kept the hover metrics inside a fixed-height widget canvas.
+- Changed the timeline to fill from left to right, with unused slots on the right.
+
 # Changelog
 
 ## 2.1.0

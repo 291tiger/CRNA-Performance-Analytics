@@ -15,7 +15,7 @@ async function onActivate(plugin: ReactRNPlugin) {
     'flashcard-analytics-button',
     WidgetLocation.FlashcardAnswerButtons,
     {
-      dimensions: { height: 'auto', width: 'auto' },
+      dimensions: { height: 112, width: 276 },
     }
   );
 

@@ -98,10 +98,7 @@ function FlashcardAnalyticsButton() {
 
   return (
     <div className="card-history-widget" aria-label="Flashcard repetition history">
-      <div className="card-history-strip" aria-label={`${compact?.reviews || 0} prior reviews`}>
-        {Array.from({ length: emptySlots }).map((_, index) => (
-          <span className="history-square history-square-empty" key={`empty-${index}`} aria-hidden="true" />
-        ))}
+      <div className="card-history-strip" aria-label={`${compact?.reviews || 0} prior reviews, oldest to newest from left to right`}>
         {visibleEvents.map((event, index) => {
           const kind = recallKind(event.score);
           return (
@@ -113,6 +110,9 @@ function FlashcardAnalyticsButton() {
             />
           );
         })}
+        {Array.from({ length: emptySlots }).map((_, index) => (
+          <span className="history-square history-square-empty" key={`empty-${index}`} aria-hidden="true" />
+        ))}
       </div>
 
       <div className="card-history-popover" aria-hidden="true">
