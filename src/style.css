@@ -388,27 +388,57 @@ td small { display: block; margin-top: 3px; color: var(--analytics-muted); font-
   .compact-period-table > div span:nth-of-type(3), .compact-period-table > div b { display: none; }
 }
 
-/* Compact, read-only flashcard repetition history. No keyboard handlers or focusable controls. */
-.card-history-widget {
+
+/* Explicit dark palette for plugin iframes. RemNote theme variables are not always inherited. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    color: #f2f4f7;
+    background: #202127;
+    --analytics-surface: #2a2b32;
+    --analytics-surface-soft: #32343c;
+    --analytics-border: #444752;
+    --analytics-muted: #b3b7c2;
+    --analytics-primary: #8db5ff;
+    --analytics-primary-soft: #283a59;
+    --analytics-danger: #ff8a80;
+    --analytics-danger-soft: #512b2d;
+    --analytics-warning: #ffc46b;
+    --analytics-warning-soft: #4d3921;
+    --analytics-success: #76d6a5;
+    --analytics-success-soft: #234738;
+    --analytics-purple: #c5a8ff;
+    --analytics-purple-soft: #3b3154;
+  }
+
+  body, .dashboard { color: #f2f4f7; background-color: #202127; }
+  h1, h2, h3, strong, td, .methodology-footer strong { color: #f2f4f7; }
+  select, input { color: #f2f4f7; background: var(--analytics-surface); }
+  .lens-grid > div, .study-summary { background: rgba(255,255,255,.045); }
+  .status-no-data, .stability-unseen { background: #3b3e47; color: #d0d5dd; }
+  .status-mastered { background: #243e61; color: #9cc7ff; }
+  tbody tr:hover { background: rgba(141,181,255,.07); }
+}
+
+/* Compact, read-only flashcard repetition history.
+   It intentionally contains no buttons, keyboard listeners, focus handlers,
+   preventDefault, or stopPropagation calls. */
+.card-history-host {
   --history-forgot: #c42416;
   --history-partial: #ebb52d;
   --history-effort: #27d930;
   --history-easy: #29701e;
   position: relative;
-  display: inline-flex;
-  align-items: center;
+  display: flex;
   justify-content: center;
-  width: 158px;
-  height: 22px;
-  margin: 0;
-  padding: 0 5px;
+  align-items: flex-start;
+  width: 100%;
+  min-height: 112px;
+  padding: 2px 12px 0;
   overflow: visible;
-  border: 0;
-  background: transparent;
-  color: var(--rn-clr-content-primary);
-  line-height: 1;
+  color: var(--rn-clr-content-primary, #172033);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   user-select: none;
-  transform: translateY(-10px);
 }
 
 .card-history-strip {
@@ -416,20 +446,29 @@ td small { display: block; margin-top: 3px; color: var(--analytics-muted); font-
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  gap: 4px;
+  gap: 5px;
+  padding: 6px 8px;
   overflow: visible;
+  border: 1px solid var(--rn-clr-border-primary, #d0d5dd);
+  border-radius: 8px;
+  background: var(--rn-clr-background-secondary, #ffffff);
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
   direction: ltr;
 }
 
 .history-square {
   display: block;
-  width: 12px;
-  height: 12px;
-  flex: 0 0 12px;
-  border-radius: 2px;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+  border-radius: 3px;
   box-sizing: border-box;
 }
-.history-square-empty { border: 1px solid var(--rn-clr-border-primary); background: transparent; opacity: .55; }
+.history-square-empty {
+  border: 1px solid var(--rn-clr-border-primary, #98a2b3);
+  background: transparent;
+  opacity: .68;
+}
 .history-square-forgot { background: var(--history-forgot); }
 .history-square-partial { background: var(--history-partial); }
 .history-square-effort { background: var(--history-effort); }
@@ -437,31 +476,53 @@ td small { display: block; margin-top: 3px; color: var(--analytics-muted); font-
 
 .card-history-popover {
   position: absolute;
-  left: 50%;
-  bottom: calc(100% + 7px);
-  z-index: 2147483647;
-  width: 246px;
+  top: 39px;
+  z-index: 9999;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 5px;
-  padding: 7px;
-  overflow: visible;
-  border: 1px solid var(--rn-clr-border-primary);
-  border-radius: 9px;
-  background: var(--rn-clr-background-primary);
-  color: var(--rn-clr-content-primary);
-  box-shadow: 0 8px 24px rgba(0,0,0,.20);
+  gap: 6px;
+  width: 268px;
+  padding: 8px;
+  border: 1px solid var(--rn-clr-border-primary, #d0d5dd);
+  border-radius: 10px;
+  background: var(--rn-clr-background-secondary, #ffffff);
+  color: var(--rn-clr-content-primary, #172033);
+  box-shadow: 0 12px 32px rgba(0,0,0,.24);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transform: translate(-50%, 4px);
-  transition: opacity 110ms ease, transform 110ms ease, visibility 110ms ease;
+  transform: translate(-50%, -3px);
+  transition: opacity 120ms ease, transform 120ms ease, visibility 120ms ease;
 }
-.card-history-widget:hover .card-history-popover { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
-.history-metric { min-width: 0; padding: 7px 5px 6px; border: 1px solid var(--rn-clr-border-primary); border-radius: 7px; background: var(--rn-clr-background-secondary); text-align: center; }
-.history-metric strong,.history-metric span { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.history-metric strong { margin-bottom:4px; font-size:14px; font-weight:760; line-height:1.05; }
-.history-metric span { font-size:9px; line-height:1.1; opacity:.74; }
+.card-history-popover.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+.history-metric {
+  min-width: 0;
+  padding: 8px 5px 7px;
+  border: 1px solid var(--rn-clr-border-primary, #d0d5dd);
+  border-radius: 8px;
+  background: var(--rn-clr-background-primary, #f8fafc);
+  text-align: center;
+}
+.history-metric strong, .history-metric span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.history-metric strong { margin-bottom: 4px; font-size: 14px; font-weight: 760; line-height: 1.05; }
+.history-metric span { font-size: 9px; line-height: 1.15; opacity: .76; }
 .history-metric.status-good { border-color: var(--history-easy); }
 .history-metric.status-review { border-color: var(--history-partial); }
 .history-metric.status-weak { border-color: var(--history-forgot); }
+
+@media (prefers-color-scheme: dark) {
+  .card-history-host { color: #f2f4f7; }
+  .card-history-strip,
+  .card-history-popover { background: #2a2b32; border-color: #4b4e59; color: #f2f4f7; }
+  .history-metric { background: #222329; border-color: #4b4e59; }
+  .history-square-empty { border-color: #7b7f8b; }
+}
