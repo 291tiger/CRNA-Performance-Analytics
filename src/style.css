@@ -5,7 +5,7 @@
 :root {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--rn-clr-content-primary, #172033);
-  background: var(--rn-clr-background-primary, #f4f6fa);
+  background: transparent;
   --analytics-surface: var(--rn-clr-background-secondary, #ffffff);
   --analytics-surface-soft: var(--rn-clr-background-tertiary, #f8fafc);
   --analytics-border: var(--rn-clr-border-primary, #dce2eb);
@@ -23,7 +23,7 @@
 }
 
 * { box-sizing: border-box; }
-body { margin: 0; background: inherit; }
+html, body { margin: 0; background: transparent !important; }
 button, select, input { font: inherit; }
 button:disabled { cursor: default; opacity: .55; }
 
@@ -394,7 +394,7 @@ td small { display: block; margin-top: 3px; color: var(--analytics-muted); font-
   :root {
     color-scheme: dark;
     color: #f2f4f7;
-    background: #202127;
+    background: transparent;
     --analytics-surface: #2a2b32;
     --analytics-surface-soft: #32343c;
     --analytics-border: #444752;
@@ -411,7 +411,8 @@ td small { display: block; margin-top: 3px; color: var(--analytics-muted); font-
     --analytics-purple-soft: #3b3154;
   }
 
-  body, .dashboard { color: #f2f4f7; background-color: #202127; }
+  body { color: #f2f4f7; background: transparent !important; }
+  .dashboard { color: #f2f4f7; background-color: #202127; }
   h1, h2, h3, strong, td, .methodology-footer strong { color: #f2f4f7; }
   select, input { color: #f2f4f7; background: var(--analytics-surface); }
   .lens-grid > div, .study-summary { background: rgba(255,255,255,.045); }
@@ -438,13 +439,19 @@ body:has(.card-history-host) {
   justify-content: center;
   align-items: flex-start;
   width: 100%;
-  height: 112px;
+  height: 26px;
+  min-height: 26px;
   padding: 3px 12px 0;
   overflow: visible;
   color: var(--rn-clr-content-primary, #172033);
   background: transparent !important;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   user-select: none;
+}
+
+
+.card-history-host:has(.card-history-popover.is-visible) {
+  height: 112px;
 }
 
 .card-history-strip {
