@@ -4,7 +4,11 @@
   "name": "CRNA Performance Analytics",
   "author": "CRNA Performance Analytics",
   "repoUrl": "https://github.com/291tiger/CRNA-Performance-Analytics",
-  "version": "2.1.7",
+  "version": {
+    "major": 2,
+    "minor": 1,
+    "patch": 7
+  },
   "description": "CRNA performance analytics with compact, read-only flashcard repetition history, mastery, confidence, coverage, readiness, weakest topics, Study Next recommendations, and progress tracking.",
   "requestNative": false,
   "enableOnMobile": true,
